@@ -1,2 +1,0 @@
-WinEnv=Check
-Miner=False
