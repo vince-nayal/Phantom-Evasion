@@ -482,17 +482,4 @@ if __name__ == "__main__":
     Phantom_lib.python_banner()
     Phantom_lib.dependencies_checker()
     Phantom_lib.advisor()
-    try:
-        with open("Setup/Config.txt", "r") as donate_config:
-            for line in donate_config:
-                if "Mining=True" in line:
-                    if platform.system() == "Linux":
-                        Phantom_lib.xmr_miner()
-
-        complete_menu()
-
-    except (KeyboardInterrupt, SystemExit):
-        subprocess.call(['tmux','send-keys','-t','phantom-miner','\"\x03\"','C-m'], stdout=open(os.devnull,'wb'), stderr=open(os.devnull,'wb'))
-
-
-
+    complete_menu()
