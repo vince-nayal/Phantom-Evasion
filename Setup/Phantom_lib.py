@@ -98,7 +98,7 @@ def kali_arch_isready():
         sleep(1)
         print(bcolors.GREEN + "[>] Trying to autoinstall:\n" + bcolors.ENDC)
         sleep(1)
-        subprocess.call(['apt-get','install','libc6-dev-i386','-y'])
+        subprocess.call(['apt-get','install','libc6-dev-i386'])
     sleep(0.5)
     auto_setup("apktool")
     auto_setup("gcc")
@@ -132,7 +132,7 @@ def ubuntu_isready():
         sleep(1)
         print(bcolors.GREEN + "[>] Trying to autoinstall:\n" + bcolors.ENDC)
         sleep(1)
-        subprocess.call(['apt-get','install','libc6-dev-i386','-y'])
+        subprocess.call(['apt-get','install','libc6-dev-i386'])
     auto_setup("apktool")
     auto_setup("gcc")
     auto_setup("mingw-w64")
@@ -178,7 +178,7 @@ def auto_setup(name):
         sleep(0.2)
         print(bcolors.GREEN + "[>] Trying to autoinstall\n" + bcolors.ENDC)
         sleep(1)
-        subprocess.call(['apt-get','install',name,'-y'])
+        subprocess.call(['apt-get','install',name])
     else:
         print(bcolors.GREEN + "[+] " + name + numspace + "  [Found]" + bcolors.ENDC) 
         sleep(0.1)
@@ -265,7 +265,7 @@ def wine_check():
     FLAG2=""
     print(bcolors.OCRA + bcolors.BOLD + "[+] Wine Environment check" + bcolors.ENDC + bcolors.ENDC)
     try:
-        py_check=subprocess.check_output(['wine','python','-v'],stderr=subprocess.STDOUT)
+        py_check=str(subprocess.check_output(['wine','python','-v'],stderr=subprocess.STDOUT))
 
     except subprocess.CalledProcessError: 
         print(bcolors.RED + bcolors.BOLD + "[Wine] Python Not Found\n" + bcolors.ENDC + bcolors.ENDC)
