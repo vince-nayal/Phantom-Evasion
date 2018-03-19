@@ -187,6 +187,8 @@ GPLv3.0
 
 ## Donate
 
+** THE MINER HAS BEEN REMOVED FROM THIS FORK, FETCH THE ORIGINAL VERSION IF YOU WISH TO SUPPORT THE DEVELOPPER (oddcod3)**
+
 In order to support the developer of this tool, you can help out by allowing phantom-evasion to install a Monero Miner along side the program's main functionality. The miner will be configured to use a low amount of system resources during phantom-evasion execution and can be deactivated at any time should you wish to do so.
 The miner (xmr-stak) is in low power comsumption mode and will use half threads detected
 You can turn it off opening another terminal then type:
