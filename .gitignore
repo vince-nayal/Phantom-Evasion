@@ -1,3 +1,4 @@
 *.pyc
 Setup/__pycache__/
 Setup/Config.txt
+Source.c
