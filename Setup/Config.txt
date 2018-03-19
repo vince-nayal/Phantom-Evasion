@@ -1,3 +1,2 @@
 WinEnv=Check
-Miner=FirstRun
-
+Miner=False
