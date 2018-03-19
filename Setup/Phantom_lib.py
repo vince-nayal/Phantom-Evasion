@@ -205,7 +205,12 @@ def dependencies_checker():
     platform_used=platform.system()
     release_used=""
     release_used=platform.platform()
-                          
+    
+    try:
+        import pystache
+    except:
+        exit(bcolors.RED + "pystache python module is not installed, aborting ({}, Python{})".format(platform_used,platform.python_version())+bcolors.ENDC+"\n")
+
     if platform_used == "Linux":
 
         if "kali" in release_used:
