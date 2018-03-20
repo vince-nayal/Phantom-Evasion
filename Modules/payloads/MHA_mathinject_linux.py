@@ -33,13 +33,10 @@ import Multibyte_xorPy3
 template_args = {} # Dictionnary containing all keys/values for template rendering
 
 Payload = sys.argv[1]
-template_args['Payload'] = Payload
 
 Filename = sys.argv[2]
-template_args['Filename'] = Filename
 
 Encryption = sys.argv[3]
-template_args['Encryption'] = Encryption
 
 Randbufname = usefull.varname_creator()
 template_args['Randbufname'] = Randbufname
