@@ -44,7 +44,7 @@ def python_banner():
     clear()
     py_version=platform.python_version()
     print(bcolors.OCRA + bcolors.BOLD + "\n[>] Python Version: " + bcolors.ENDC + bcolors.ENDC + py_version)
-    sleep(0.5)
+    sleep(0.1)
 
 
 def path_finder(filename):
@@ -77,8 +77,8 @@ def linux_isready():
         auto_check("openssl")
         auto_check("strip")
         auto_check("wine")
-        print(bcolors.GREEN + "\n[>] Completed!!\n" + bcolors.ENDC)
-        sleep(1)
+        print(bcolors.GREEN + "\n[>] Completed!!" + bcolors.ENDC)
+        sleep(0.1)
     else:
         print(bcolors.GREEN + "[>] APT [Found]" + bcolors.ENDC) 
         sleep(0.1)
@@ -87,7 +87,6 @@ def linux_isready():
 
 
 def kali_arch_isready():
-    sleep(0.5)
     print(bcolors.OCRA + "[>] Checking dependencies:\n" + bcolors.ENDC)
     package = os.system("dpkg -l | grep libc6-dev-i386 >/dev/null 2>&1")
 
@@ -95,7 +94,7 @@ def kali_arch_isready():
         print(bcolors.GREEN + "[>] Package libc6-dev-i386               [Found]\n" + bcolors.ENDC)
     else:
         print(bcolors.RED + "[>] Package libc6-dev-i386                 [Not Found]\n" + bcolors.ENDC)
-        sleep(1)
+        sleep(0.1)
         print(bcolors.GREEN + "[>] Trying to autoinstall:\n" + bcolors.ENDC)
         sleep(1)
         subprocess.call(['apt-get','install','libc6-dev-i386'])
@@ -111,16 +110,14 @@ def kali_arch_isready():
     auto_setup("strip")
     auto_setup("wine")    
     if wine_fastcheck() == True:
-        sleep(0.2)
         print(bcolors.GREEN + "\n[>] Wine Env Ready\n" + bcolors.ENDC)
         sleep(0.5)
     else:       
         wine_check()
     print(bcolors.GREEN + "\n[>] Completed!!\n" + bcolors.ENDC)
-    sleep(1)
+    sleep(0.1)
 
 def ubuntu_isready():
-    sleep(0.5)
 
     print(bcolors.OCRA + "[>] Checking dependencies:\n" + bcolors.ENDC)
     package = os.system("dpkg -l | grep libc6-dev-i386 >/dev/null 2>&1")
@@ -129,7 +126,6 @@ def ubuntu_isready():
         print(bcolors.GREEN + "[>] Package libc6-dev-i386               [Found]\n" + bcolors.ENDC)
     else:
         print(bcolors.RED + "[>] Package libc6-dev-i386                 [Not Found]\n" + bcolors.ENDC)
-        sleep(1)
         print(bcolors.GREEN + "[>] Trying to autoinstall:\n" + bcolors.ENDC)
         sleep(1)
         subprocess.call(['apt-get','install','libc6-dev-i386'])
@@ -142,7 +138,6 @@ def ubuntu_isready():
     auto_setup("strip")
     auto_setup("wine")
     if wine_fastcheck() == True:
-        sleep(0.2)
         print(bcolors.GREEN + "\n[>] Wine Env Ready\n" + bcolors.ENDC)
         sleep(0.5)
     else:       
@@ -175,7 +170,6 @@ def auto_setup(name):
 
     except subprocess.CalledProcessError: 
         print(bcolors.RED + "[-] " + name + numspace + "  [Not Found]\n" + bcolors.ENDC)
-        sleep(0.2)
         print(bcolors.GREEN + "[>] Trying to autoinstall\n" + bcolors.ENDC)
         sleep(1)
         subprocess.call(['apt-get','install',name])
@@ -218,34 +212,27 @@ def dependencies_checker():
             if "rolling" in release_used:
 
                 print(bcolors.OCRA + bcolors.BOLD + "\n[>] Kali-Rolling Detected!!\n" + bcolors.ENDC + bcolors.ENDC)
-                sleep(1)
 
             elif "rolling" not in release_used:
 
                 print(bcolors.OCRA + bcolors.BOLD + "\n[>] Kali 2 Detected!!\n" + bcolors.ENDC + bcolors.ENDC)
-                sleep(1)
 
             kali_arch_isready()
 
         elif "Ubuntu" in release_used:                
                 
             print(bcolors.OCRA + bcolors.BOLD + "\n[>] Ubuntu Detected!!\n" + bcolors.ENDC + bcolors.ENDC)
-            sleep(1)
             ubuntu_isready()
 
         else:
             print(bcolors.OCRA + bcolors.BOLD + "\n[>] Linux distro Detected!! \n" + bcolors.ENDC + bcolors.ENDC)
-            sleep(1)
             linux_isready()
 
     elif platform_used == "Windows":
 
         print(bcolors.RED + bcolors.BOLD + "\n[>] Windows Detected!!\n" + bcolors.ENDC + bcolors.ENDC)
-        sleep(1)
         print("[-] Auto install not supported\n")
-        sleep(0.2)
         print("[-] Check README to properly install the dependencies\n")
-        sleep(1)
         try:   
             ans=input("  Press Enter to continue: ") 
         except SyntaxError:
@@ -275,14 +262,12 @@ def wine_check():
     except subprocess.CalledProcessError: 
         print(bcolors.RED + bcolors.BOLD + "[Wine] Python Not Found\n" + bcolors.ENDC + bcolors.ENDC)
         print("In order to use windows wine-pyinstaller modules you need to\n install python and pyinstaller in wine or download and install Veil Evasion to automatically setup Wine environment\n")
-        sleep(5) 
         
         
     else:
         if "cannot find" in py_check:
             print(bcolors.RED + bcolors.BOLD + "[Wine] Python Not Found\n" + bcolors.ENDC + bcolors.ENDC)
             print("In order to use windows wine-pyinstaller modules you need to\n install python and pyinstaller in wine or download and install Veil Evasion to automatically setup Wine environment\n")
-            sleep(5)
         else:
 
             print(bcolors.GREEN + "[Wine] Python Found" + bcolors.ENDC)
@@ -300,13 +285,11 @@ def wine_check():
         if "cannot find" in pyin_check:
             print(bcolors.RED + bcolors.BOLD + "[Wine] Pyinstaller Not Found\n" + bcolors.ENDC + bcolors.ENDC)
             print("In order to use windows wine-pyinstaller modules you need to\n install python and pyinstaller in wine or download and install Veil to automatically setup Wine environment\n")
-            sleep(5) 
 
         else:
 
             print(bcolors.GREEN + "[Wine] Pyinstaller Found" + bcolors.ENDC )
             FLAG2="OK"        
-    sleep(0.5)
 
     if FLAG1=="OK":
         if FLAG2=="OK":
@@ -318,20 +301,14 @@ def wine_check():
                 conf.write(new_conf)
 
 def advisor():
-    clear()
     print(bcolors.RED + "[DISCLAIMER]:" + bcolors.ENDC + "Phantom-Evasion is intended to be used for legal security")
-    print("purposes only any other use is not under the responsibility of the developer\n") 
-    sleep(0.2)
-    print(bcolors.RED + "[+] Developed by:" + bcolors.ENDC + " Diego Cornacchini  \n")
-    sleep(0.2)
-    print(bcolors.RED + "[+] GITHUB: " + bcolors.ENDC + "https://github.com/oddcod3 \n")
-    sleep(0.2)
-    print(bcolors.RED + "[+] VERSION: " + bcolors.ENDC + "0.3 \n")
-    sleep(0.2)
-    print(bcolors.RED + "[+] MODULES: " + bcolors.ENDC + "17\n")
-    sleep(0.2)
-    print(bcolors.RED + "[+] NEW FEATURES: " + bcolors.ENDC + "Indirect call,Wine-pyinstaller payload & new encoders \n")
-    sleep(3)
+    print("purposes only any other use is not under the responsibility of the developer") 
+    print(bcolors.RED + "[+] Developed by:" + bcolors.ENDC + " Diego Cornacchini")
+    print(bcolors.RED + "[+] GITHUB: " + bcolors.ENDC + "https://github.com/oddcod3")
+    print(bcolors.RED + "[+] VERSION: " + bcolors.ENDC + "0.3")
+    print(bcolors.RED + "[+] MODULES: " + bcolors.ENDC + "17")
+    print(bcolors.RED + "[+] NEW FEATURES: " + bcolors.ENDC + "Indirect call,Wine-pyinstaller payload & new encoders")
+    sleep(0.5)
     
 
 def clear():
@@ -339,7 +316,7 @@ def clear():
     sleep(0.1)
 
 def banner():
-    bann= "\n\n"
+    bann= "\n"
     bann += "                       _                 _                        \n" 
     bann += "                 _ __ | |__   __ _ _ __ | |_ ___  _ __ ___        \n"
     bann += "                | '_ \| '_ \ / _` | '_ \| __/ _ \| '_ ` _ \       \n"
@@ -348,9 +325,11 @@ def banner():
     bann += "                |_|   / _ \ \ / / _` / __| |/ _ \| '_ \           \n"
     bann += "                     |  __/\ V / (_| \__ \ | (_) | | | |          \n"
     bann += "                      \___| \_/ \__,_|___/_|\___/|_| |_|          \n"
-    sleep(0.3)
     print(bcolors.RED + bcolors.BOLD + bann  + bcolors.ENDC + bcolors.ENDC)
   
+def compact_banner():
+    print(bcolors.RED + bcolors.BOLD + "\t\t\t    [Phantom Evasion]" + bcolors.ENDC + bcolors.ENDC)
+
 def exit_banner():
 
     print("      *     .--. .-,       .-..-.__                ___        *              ")
@@ -552,6 +531,15 @@ def menu_options():
     print("  ||    [4]  List OSX modules        ||   [0]  Exit                     || ")
     print("  ||                                 ||                                 || ")
     print("    ====================================================================\n")
+
+def compact_menu_options():
+    print("    ========================="+ bcolors.OCRA + "  [MAIN MENU]" + bcolors.ENDC + "  ==========================")
+    print("  ||   [1]  List All modules        |   [5]  List Android modules     || ")
+    print("  ||   [2]  List Windows modules    |   [6]  List Universal modules   || ")
+    print("  ||   [3]  List Linux modules      |   [7]  Update check             || ")
+    print("  ||   [4]  List OSX modules        |   [0]  Exit                     || ")
+    print("    ==================================================================\n")
+
 
 def payload_generator(msfvenom_payload,arch,host,port,payload_format):
     py_version=platform.python_version()    
