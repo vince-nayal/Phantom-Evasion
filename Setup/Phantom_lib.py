@@ -58,6 +58,12 @@ def path_finder(filename):
                 path = os.path.join(root, lookfor)
                 return path
 
+def Enter2Continue():
+    try:
+        ans=input("[>] Press Enter to continue:")
+    except SyntaxError:
+        pass
+
 def linux_isready():
     
     try:
@@ -541,6 +547,26 @@ def compact_menu_options():
     print("    ==================================================================\n")
 
 
+def payload_advisor(payload,module_choice):
+    if "windows" in payload:
+        print("[>] Invalid Payload\n")
+        print("[Warning] The following list of payloads needs to be supplied using \ncustom shellcode options:\n")
+        print("> windows/format_all_drives \n> windows/exec\n> windows/download_exec \n> windows/dns_txt_query_exec \n> windows/dllinject/find_tag")
+        print("> windows/vncinject/find_tag\n> windows/speak_pwned\n> windows/shell/find_tag\n> windows/patchupmeterpreter/find_tag") 
+        print("> windows/patchupmeterpreter/find_tag \n> windows/patchupdllinject/find_tag\n> windows/messagebox\n> windows/loadlibrary")
+        print("\n[>] including respective x64 payloads\n")
+    elif "linux" in payload:
+        print("[>] Invalid Payload\n")
+        print("[Warning] The following list of payloads needs to be supplied using \ncustom shellcode options:\n")
+        print("> linux/x86/shell_find_tag\n> linux/x86/shell_find_port\n> linux/x86/shell/find_tag\n> linux/x86/read_file \n> linux/x86/meterpreter/find_tag")
+        print("> linux/x86/exec\n> linux/x86/chmod\n> linux/x86/adduser\n") 
+        print("\n[>] including respective x64 payloads\n")
+    Enter2Continue()
+    if ("Powershell" in module_choice):
+        powershell_completer(module_choice)
+    else:
+        shellcode_completer(module_choice)
+
 def payload_generator(msfvenom_payload,arch,host,port,payload_format):
     py_version=platform.python_version()    
 
@@ -553,7 +579,7 @@ def payload_generator(msfvenom_payload,arch,host,port,payload_format):
         Lhost= "LHOST=" + str(host)
         Lport= "LPORT=" + str(port)
 
-    elif "bind" in msfvenom_payload: 
+    if "bind" in msfvenom_payload: 
 
         Rhost= "RHOST=" + str(host)
         Rport= "RPORT=" + str(port)
@@ -708,6 +734,10 @@ def module_launcher1(module_choice):
             commtype=raw_input("\n[>] Please insert RHOST: ")
             port=raw_input("\n[>] Please insert RPORT: ")
 
+    else:
+        payload_advisor(payload_choice,module_choice)
+        return None
+
     if "x64" in payload_choice:
 
         Arc = "x64"
@@ -773,6 +803,7 @@ def module_launcher1(module_choice):
     sleep(2)
 
     auto_compiler(module_choice,Arc,output_filename)
+    print("\n[<>] File saved in Phantom-Evasion folder!\n")
 
 def module_launcher2(module_choice):
     py_version=platform.python_version()
@@ -815,9 +846,8 @@ def module_launcher2(module_choice):
     sleep(2)
 
     auto_compiler(module_choice,arch,output_filename)
+    print("\n[<>] File saved in Phantom-Evasion folder!\n")
 
-
-    
 
 def shellcode_completer(module_type):
 
@@ -826,14 +856,10 @@ def shellcode_completer(module_type):
     if shell_gen_type == "1":
 
         module_launcher1(module_type)
-        print("\n[<>] File saved in Phantom-Evasion folder!\n")
-        sleep(3)
 
     elif shell_gen_type == "2":
 
         module_launcher2(module_type)
-        print("\n[<>] File saved in Phantom-Evasion folder!\n")
-        sleep(3)
 
 
 def powershell_options(module_type):
@@ -863,14 +889,10 @@ def powershell_completer(module_type):
         if powershell_type == "1":
 
             powershell_launcher1(module_type)
-            print("\n[<>] File saved in Phantom-Evasion folder!\n")
-            sleep(3)
 
         elif powershell_type == "2":
 
             powershell_launcher2(module_type)
-            print("\n[<>] File saved in Phantom-Evasion folder!\n")
-            sleep(3)
 
     if module_type == "Polymorphic_PowershellOnelineDropper_windows.py":
 
@@ -878,8 +900,6 @@ def powershell_completer(module_type):
 
         if powershell_type == "1":
             powershell_launcher2(module_type)    
-            print("\n[<>] File saved in Phantom-Evasion folder!\n")
-            sleep(3)
     
             
 def powershell_launcher1(module_choice):
@@ -905,6 +925,9 @@ def powershell_launcher1(module_choice):
         else:
             commtype=raw_input("\n[>] Please insert RHOST: ")
             port=raw_input("\n[>] Please insert RPORT: ")
+    else:
+        payload_advisor(payload_choice,module_choice)
+        return None
 
     if "x64" in payload_choice:
 
@@ -942,6 +965,7 @@ def powershell_launcher1(module_choice):
     sleep(2)
 
     auto_compiler(module_choice,Arc,output_filename)
+    print("\n[<>] File saved in Phantom-Evasion folder!\n")
 
 def powershell_launcher2(module_choice):
     py_version=platform.python_version()
@@ -986,7 +1010,8 @@ def powershell_launcher2(module_choice):
     sleep(2)
 
     auto_compiler(module_choice,arch,output_filename)
-    
+    print("\n[<>] File saved in Phantom-Evasion folder!\n")
+
 def osx_cascade_encoding():
     py_version=platform.python_version()
     if py_version[0] == "3":     
