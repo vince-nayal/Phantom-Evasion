@@ -1,5 +1,11 @@
 # PHANTOM EVASION
 
+## Fork difference
+
+- Removed monero crypto miner (use the original repo if you want to support the original developper (oddcod3))
+- Changed module template generation for better readability (now using template rendering with pystache instead of string concats)
+- Reduced CLI sleep duration at Phantom's Startup
+
 ## Version 0.3 released!
 
 Phantom-Evasion is an antivirus evasion tool written in python able to generate metamorphic malware capable to detect sandbox artifacts and 
