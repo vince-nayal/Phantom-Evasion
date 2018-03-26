@@ -19,14 +19,14 @@
      ########################################################################################
 
 import pystache
-import random, string
+import random
+import string
 import sys 
 from random import shuffle
 sys.path.append("Modules/payloads/auxiliar")
 import usefull
 
 template_args = {} # Dictionnary containing all keys/values for template rendering
-
 
 Powershell_payload = sys.argv[1]
 template_args['Powershell_payload'] = Powershell_payload
